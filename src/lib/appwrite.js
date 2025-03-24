@@ -1,4 +1,4 @@
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID, OAuthProvider } from "appwrite";
 
 const client = new Client();
 
@@ -8,4 +8,4 @@ client
 
 const account = new Account(client);
 
-export { client, account, ID };
+export { client, account, ID, OAuthProvider };

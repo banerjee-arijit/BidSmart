@@ -37,7 +37,7 @@ const Hero = () => {
                 technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Link to="/AuthPage" className="w-full sm:w-auto">
+                <Link to="/authpage" className="w-full sm:w-auto">
                   <button className="group w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-3 rounded-md font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-105">
                     <Zap className="h-5 w-5 group-hover:animate-pulse" />
                     <span className="group-hover:text-white">Launch Bid</span>

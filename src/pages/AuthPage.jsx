@@ -14,7 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useNavigate } from "react-router-dom";
-import { account, ID } from "../lib/appwrite";
+import { account, ID, OAuthProvider } from "../lib/appwrite";
 import BGanimation from "../animations/BGanimation";
 
 const AuthPage = () => {
@@ -78,8 +78,30 @@ const AuthPage = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Login with Google triggered.");
+  const handleGoogleLogin = async () => {
+    account.createOAuth2Session(
+      OAuthProvider.Google,
+      "http://localhost:5173/dashboard",
+      "http://localhost:5173/authpage"
+    );
+  };
+
+  const handleForgotPassword = async () => {
+    if (!users.email) {
+      notify("Please enter your email above first.", "error");
+      return;
+    }
+
+    try {
+      await account.createRecovery(
+        users.email,
+        "https://bidsmart.vercel.app/reset-password"
+      );
+      notify("Recovery email sent! Check your inbox.");
+    } catch (error) {
+      console.error("Recovery error:", error);
+      notify("Failed to send recovery email.", "error");
+    }
   };
 
   const handleInputChange = (e) => {
@@ -181,6 +203,16 @@ const AuthPage = () => {
               />
             </div>
 
+            <div className="text-right">
+              <a
+                href="#"
+                onClick={handleForgotPassword}
+                className="text-cyan-300 text-sm hover:underline"
+              >
+                Forget password?
+              </a>
+            </div>
+
             <button
               type="submit"
               className="w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-black rounded-lg font-semibold flex items-center justify-center gap-2 transition duration-300"
@@ -193,7 +225,6 @@ const AuthPage = () => {
               {isLogin ? "Login" : "Register"}
             </button>
           </form>
-
           <div className="my-4 text-center text-sm text-gray-400">OR</div>
 
           <button

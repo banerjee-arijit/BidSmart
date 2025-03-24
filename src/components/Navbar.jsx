@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Rocket, Menu, X, Sparkles } from "lucide-react";
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,10 +38,12 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             <button className="relative group">
               <div className="absolute  opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-              <div className="relative bg-black px-6 py-2 rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 transition duration-300 flex items-center gap-2">
-                <Sparkles className="h-4 w-4" />
-                Launch Bid
-              </div>
+              <Link to={"/authpage"}>
+                <div className="relative bg-black px-6 py-2 rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 transition duration-300 flex items-center gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Launch Bid
+                </div>
+              </Link>
             </button>
           </div>
           <div className="md:hidden">
@@ -100,10 +102,12 @@ const Navbar = () => {
             ))}
           </div>
           <div className="mt-8">
-            <button className="w-full rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 text-black px-6 py-2 rounded-md font-medium transition duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
-              <Sparkles className="h-4 w-4" />
-              Launch Bid
-            </button>
+            <Link to="/authpage">
+              <button className="w-full rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 px-6 py-2 font-medium transition duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
+                <Sparkles className="h-4 w-4" />
+                Launch Bid
+              </button>
+            </Link>
           </div>
         </div>
       </div>
