@@ -1,25 +1,13 @@
 import React from "react";
 import { Zap, Globe, Cpu, Layers, Shield, Rocket } from "lucide-react";
 import { Navigate, Link } from "react-router-dom";
+import BGanimation from "../animations/BGanimation";
 
 const Hero = () => {
   return (
     <div className="pt-16 bg-black min-h-screen relative overflow-hidden">
       {/* Animated background gradient */}
-      <div className="absolute inset-0 opacity-30">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute h-2 w-2 bg-cyan-400 rounded-full animate-ping"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${1 + Math.random() * 3}s`,
-            }}
-          ></div>
-        ))}
-      </div>
+      <BGanimation />
       {/* Grid overlay */}
       <div
         className="absolute inset-0"
@@ -49,15 +37,18 @@ const Hero = () => {
                 technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <Link to="/AuthPage">
-                  <button className="group w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-3 rounded-md font-medium flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
-                    <Zap className="h-5 w-5 group-hover:animate-pulse sm:w-full" />
-                    Launch Bid
+                <Link to="/AuthPage" className="w-full sm:w-auto">
+                  <button className="group w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-3 rounded-md font-medium flex items-center justify-center gap-2 transition-transform duration-300 hover:scale-105">
+                    <Zap className="h-5 w-5 group-hover:animate-pulse" />
+                    <span className="group-hover:text-white">Launch Bid</span>
                   </button>
                 </Link>
-                <button className="group border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3 rounded-md font-medium transition duration-300 flex items-center justify-center gap-2">
+
+                <button className="group w-full sm:w-auto border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3 rounded-md font-medium transition-transform duration-300 flex items-center justify-center gap-2 hover:scale-105">
                   <Globe className="h-5 w-5 group-hover:rotate-180 transition-transform duration-700" />
-                  Explore More
+                  <span className="group-hover:text-cyan-200">
+                    Explore More
+                  </span>
                 </button>
               </div>
             </div>

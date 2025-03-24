@@ -37,7 +37,7 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <button className="relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-lg blur opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+              <div className="absolute  opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
               <div className="relative bg-black px-6 py-2 rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 transition duration-300 flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
                 Launch Bid
@@ -100,7 +100,7 @@ const Navbar = () => {
             ))}
           </div>
           <div className="mt-8">
-            <button className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 text-black px-6 py-2 rounded-md font-medium transition duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
+            <button className="w-full rounded-lg border border-cyan-500/50 hover:border-cyan-500 text-cyan-400 text-black px-6 py-2 rounded-md font-medium transition duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_15px_rgba(0,255,255,0.3)]">
               <Sparkles className="h-4 w-4" />
               Launch Bid
             </button>
