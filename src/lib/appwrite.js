@@ -4,7 +4,7 @@ const client = new Client();
 
 client
   .setEndpoint("https://cloud.appwrite.io/v1")
-  .setProject("67e12594002c21ae3cef");
+  .setProject("67e17320001348917dbe");
 
 const account = new Account(client);
 
