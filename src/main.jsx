@@ -5,11 +5,19 @@ import App from "./App.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
+import ProtectedAuthRoute from "./components/ProtectedAuthRoute.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
-  { path: "/authpage", element: <AuthPage /> },
+  {
+    path: "/authpage",
+    element: (
+      <ProtectedAuthRoute>
+        <AuthPage />
+      </ProtectedAuthRoute>
+    ),
+  },
   { path: "/dashboard", element: <Dashboard /> },
   { path: "/reset-password", element: <ResetPassword /> },
 ]);

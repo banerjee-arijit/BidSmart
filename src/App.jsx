@@ -15,7 +15,7 @@ const App = () => {
         setSession(session);
       } catch (error) {
         console.error("No session found:", error);
-        setSession(null); // fallback for safety
+        setSession(null);
       } finally {
         setLoading(false);
       }
