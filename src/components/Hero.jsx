@@ -1,5 +1,6 @@
 import React from "react";
 import { Zap, Globe, Cpu, Layers, Shield, Rocket } from "lucide-react";
+import { Navigate, Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -48,10 +49,12 @@ const Hero = () => {
                 technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <button className="group bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-3 rounded-md font-medium flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
-                  <Zap className="h-5 w-5 group-hover:animate-pulse" />
-                  Launch Bid
-                </button>
+                <Link to="/AuthPage">
+                  <button className="group bg-cyan-500 hover:bg-cyan-600 text-black px-8 py-3 rounded-md font-medium flex items-center justify-center gap-2 transition duration-300 transform hover:scale-105">
+                    <Zap className="h-5 w-5 group-hover:animate-pulse" />
+                    Launch Bid
+                  </button>
+                </Link>
                 <button className="group border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 px-8 py-3 rounded-md font-medium transition duration-300 flex items-center justify-center gap-2">
                   <Globe className="h-5 w-5 group-hover:rotate-180 transition-transform duration-700" />
                   Explore More
