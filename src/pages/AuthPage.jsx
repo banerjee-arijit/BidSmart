@@ -120,7 +120,6 @@ const AuthPage = () => {
         theme="dark"
       />
 
-      {/* Grid Background */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -130,7 +129,6 @@ const AuthPage = () => {
         }}
       />
 
-      {/* ✨ Glowing Dots */}
       <BGanimation />
       {/* Main Card */}
       <div className="relative z-10 w-full max-w-5xl bg-black/60 backdrop-blur-md border border-cyan-500/10 rounded-xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
