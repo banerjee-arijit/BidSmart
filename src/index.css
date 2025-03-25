@@ -1,5 +1,13 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+
+
+/* index.css or globals.css */
+html.nova {
+  @apply bg-[#0a0f1c] text-white;
+}
+html.light {
+  @apply bg-white text-black;
+}
 
 @custom-variant dark (&:is(.dark *));
 :root{

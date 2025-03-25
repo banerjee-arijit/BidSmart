@@ -19,6 +19,7 @@ import {
 
 import BGanimation from "../animations/BGanimation";
 import Sidebar from "../components/Sidebar";
+import UserBoard from "@/components/UserBoard";
 
 const Dashboard = () => {
   return (
@@ -36,6 +37,7 @@ const Dashboard = () => {
       <div className="relative z-10 flex flex-col lg:flex-row">
         {/* Sidebar */}
         <Sidebar />
+        <UserBoard />
       </div>
     </div>
   );
