@@ -20,7 +20,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const sidebarItems = [
-    { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { id: "", icon: LayoutDashboard, label: "Dashboard" },
     { id: "search", icon: Search, label: "Search Auctions" },
     { id: "live", icon: Gavel, label: "Live Auctions" },
     { id: "create", icon: PlusCircle, label: "Create Auction" },
@@ -30,7 +30,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       await account.deleteSession("current");
-      navigate("/authpage"); // or window.location.href = "/authpage";
+      navigate("/authpage");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -57,6 +57,7 @@ const Sidebar = () => {
               onClick={() => {
                 setActivePage(item.id);
                 setIsSidebarOpen(false);
+                navigate(`/dashboard/${item.id}`);
               }}
               className={`group w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 mb-2 relative ${
                 activePage === item.id
