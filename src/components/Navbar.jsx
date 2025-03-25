@@ -23,7 +23,7 @@ const Navbar = () => {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                {["Home", "Auctions", "How It Works", "About"].map((item) => (
+                {["Home", "Freature", "About", "Help"].map((item) => (
                   <a
                     key={item}
                     href="#"
