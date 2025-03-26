@@ -59,7 +59,7 @@ const UserBoard = () => {
           currentUserFirstChar={currentUserFirstChar}
         />
       )}
-      <div className="mt-10 z-0 overflow-auto">
+      <div className="mt-10 z-0 overflow-auto ">
         <Outlet />
       </div>
     </div>

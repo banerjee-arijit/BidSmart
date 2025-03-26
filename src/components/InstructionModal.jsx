@@ -10,7 +10,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-const InstructionModal = ({ isOpen, onClose }) => {
+const InstructionModal = ({ isOpen, setIsModalOpen }) => {
   const instructions = [
     {
       icon: <FileText className="w-6 h-6 text-cyan-400" />,
@@ -63,7 +63,7 @@ const InstructionModal = ({ isOpen, onClose }) => {
               Auction Guidelines
             </h2>
             <button
-              onClick={onClose}
+              onClick={() => setIsModalOpen(false)}
               className="text-gray-400 hover:text-red-500 transition-all"
             >
               <X size={24} />
