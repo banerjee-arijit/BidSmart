@@ -40,53 +40,66 @@ const Sidebar = () => {
     <div>
       {/* Sidebar */}
       <aside
-        className={`bg-black/80 backdrop-blur-lg border-r  border-cyan-500/20 w-64 fixed  lg:static h-screen z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`bg-black/90 backdrop-blur-lg border-r border-cyan-500/20 w-64 fixed top-0 left-0 h-full z-50 transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="p-4">
-          <div className="flex items-center gap-2 mb-8">
-            <Rocket className="h-8 w-8 text-cyan-400" />
-            <span className="text-xl font-bold">
-              NOVA<span className="text-cyan-400">Bid</span>
-            </span>
-          </div>
-          {sidebarItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setActivePage(item.id);
-                setIsSidebarOpen(false);
-                navigate(`/dashboard/${item.id}`);
-              }}
-              className={`group w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 mb-2 relative ${
-                activePage === item.id
-                  ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
-                  : "hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-400"
-              }`}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.label}</span>
-              {item.badge && (
-                <span className="ml-auto bg-cyan-500 text-black px-2 py-0.5 rounded-full text-xs">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+        <div className="flex flex-col h-full justify-between overflow-y-auto">
+          {/* Top Branding + Menu */}
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-8">
+              <Rocket className="h-8 w-8 text-cyan-400" />
+              <span className="text-xl font-bold">
+                NOVA<span className="text-cyan-400">Bid</span>
+              </span>
+            </div>
 
-        {/* Logout Button */}
-        <div className="absolute bottom-4 left-0 w-full px-4">
-          <button
-            onClick={() => setShowLogoutModal(true)}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-400 hover:text-red-400 hover:bg-cyan-500/10 transition-all duration-300"
-          >
-            <LogOut className="h-5 w-5" />
-            <span>GavelDown</span>
-          </button>
+            {/* Sidebar Items */}
+            {sidebarItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setActivePage(item.id);
+                  setIsSidebarOpen(false); // Close drawer on item click
+                  navigate(`/dashboard/${item.id}`);
+                }}
+                className={`group w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 mb-2 relative ${
+                  activePage === item.id
+                    ? "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20"
+                    : "hover:bg-cyan-500/5 text-gray-400 hover:text-cyan-400"
+                }`}
+              >
+                <item.icon className="h-5 w-5" />
+                <span>{item.label}</span>
+                {item.badge && (
+                  <span className="ml-auto bg-cyan-500 text-black px-2 py-0.5 rounded-full text-xs">
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Logout at Bottom */}
+          <div className="sticky bottom-0 bg-black/90 border-t border-cyan-500/10 px-4 py-3">
+            <button
+              onClick={() => setShowLogoutModal(true)}
+              className="w-full flex items-center gap-3 text-gray-400 hover:text-red-400 hover:bg-cyan-500/10 px-4 py-2 rounded-lg transition"
+            >
+              <LogOut className="h-5 w-5" />
+              <span>GavelDown</span>
+            </button>
+          </div>
         </div>
       </aside>
+
+      {/* Backdrop for mobile when drawer is open */}
+      {isSidebarOpen && (
+        <div
+          onClick={() => setIsSidebarOpen(false)}
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+        />
+      )}
 
       {/* Hamburger Toggle */}
       <button
