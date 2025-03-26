@@ -12,6 +12,8 @@ import Messages from "../components/pages/Messages.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
+
+  // Protect auth page from logged-in users if they Are Already Logged-In
   {
     path: "/authpage",
     element: (
@@ -20,17 +22,21 @@ const router = createBrowserRouter([
       </ProtectedAuthRoute>
     ),
   },
+
+  // Dashboard layout with nested routes
   {
     path: "/dashboard",
     element: <Dashboard />,
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <HomePage /> }, // default route
       { path: "search", element: <SearchAuctionPage /> },
       { path: "live", element: <LiveAuction /> },
       { path: "create", element: <CreateAuction /> },
       { path: "messages", element: <Messages /> },
     ],
   },
+
+  // Password reset route
   { path: "/reset-password", element: <ResetPassword /> },
 ]);
 

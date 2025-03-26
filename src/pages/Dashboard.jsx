@@ -1,21 +1,4 @@
-import React, { useState } from "react";
-import {
-  LayoutDashboard,
-  Search,
-  Gavel,
-  PlusCircle,
-  MessageSquare,
-  Bell,
-  Settings,
-  ArrowUpRight,
-  TrendingUp,
-  Clock,
-  Users,
-  Sparkles,
-  Rocket,
-  Menu,
-  X,
-} from "lucide-react";
+import React from "react";
 
 import BGanimation from "../animations/BGanimation";
 import Sidebar from "../components/Sidebar";
@@ -23,7 +6,7 @@ import UserBoard from "@/components/UserBoard";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen  bg-black text-white relative ">
+    <div className="min-h-screen bg-black text-white relative">
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
@@ -34,12 +17,9 @@ const Dashboard = () => {
       />
       <BGanimation />
       <div className="relative z-10 flex flex-col lg:flex-row h-screen">
-        {/* Sidebar */}
         <div className="w-full lg:w-64 bg-black overflow-scroll md:overflow-hidden">
           <Sidebar />
         </div>
-
-        {/* UserBoard - scrollable content area */}
         <div className="flex-1 overflow-y-scroll overflow-x-hidden h-screen">
           <UserBoard />
         </div>

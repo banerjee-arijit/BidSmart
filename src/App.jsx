@@ -5,16 +5,18 @@ import Dashboard from "./pages/Dashboard";
 import Loader from "./loader/Loader";
 
 const App = () => {
+  // State For Current User and Controls Loader
   const [currentSession, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useLayoutEffect(() => {
+    // Check if user is logged in on initial load
     const checkSession = async () => {
       try {
         const session = await account.get();
         setSession(session);
       } catch (error) {
-        console.error("No session found:", error);
+        console.warn("No active session:", error.message);
         setSession(null);
       } finally {
         setLoading(false);
@@ -24,11 +26,8 @@ const App = () => {
     checkSession();
   }, []);
 
-  return (
-    <div>
-      {loading ? <Loader /> : currentSession ? <Dashboard /> : <LandingPage />}
-    </div>
-  );
+  if (loading) return <Loader />;
+  return currentSession ? <Dashboard /> : <LandingPage />;
 };
 
 export default App;

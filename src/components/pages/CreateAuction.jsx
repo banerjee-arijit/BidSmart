@@ -73,15 +73,6 @@ const CreateAuction = () => {
       />
       <BGanimation />
 
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px)",
-          backgroundSize: "50px 50px",
-        }}
-      ></div>
-
       <div className="max-w-3xl bg-transparent backdrop-blur-md rounded-2xl shadow-xl p-6 md:p-8 relative z-10">
         <div className="flex flex-col items-center gap-2 mb-8">
           <div className="bg-[#00b8db1a] p-4 rounded-full shadow-md">

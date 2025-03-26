@@ -18,44 +18,39 @@ import { account, ID, OAuthProvider } from "../lib/appwrite";
 import BGanimation from "../animations/BGanimation";
 
 const AuthPage = () => {
-  // -------------------------------------------------------STATES-------------------------------------------------------
-  const [isLogin, setIsLogin] = useState(true);
-  const [users, setUser] = useState({
-    email: "",
-    password: "",
-    username: "",
-  });
+  // ------------------------ STATES ------------------------
+  const [isLogin, setIsLogin] = useState(true); // toggle login/register mode
+  const [users, setUser] = useState({ email: "", password: "", username: "" }); // user input state
 
-  // -------------------------------------------------------HOOKS-------------------------------------------------------
-  const navigate = useNavigate();
+  // ------------------------ HOOKS ------------------------
+  const navigate = useNavigate(); // router navigation hook
 
-  // -------------------------------------------------------FUNCTIONS-------------------------------------------------------
-  const toggleForm = () => setIsLogin(!isLogin);
+  // ------------------------ FUNCTIONS ------------------------
 
-  const handleSubmit = (e) => {
+  // switch between login and register form
+  const toggleForm = () => setIsLogin((prev) => !prev);
+
+  // input change handler
+  const handleInputChange = (e) =>
+    setUser({ ...users, [e.target.name]: e.target.value });
+
+  // toast notification
+  const notify = (message, type = "success") =>
+    type === "error" ? toast.error(message) : toast.success(message);
+
+  // handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    isLogin ? handleLogin() : handleRegister();
+    isLogin ? await handleLogin() : await handleRegister();
   };
 
-  const notify = (message, type = "success") => {
-    if (type === "error") {
-      toast.error(message);
-    } else {
-      toast.success(message);
-    }
-  };
-
+  // handle login logic
   const handleLogin = async () => {
     const { email, password } = users;
     try {
       const session = await account.createEmailPasswordSession(email, password);
       if (session) {
-        setUser({
-          email: "",
-          password: "",
-          username: "",
-        });
-
+        setUser({ email: "", password: "", username: "" });
         notify("Login successful!");
         setTimeout(() => navigate("/dashboard"), 2000);
       }
@@ -65,6 +60,7 @@ const AuthPage = () => {
     }
   };
 
+  // handle registration logic
   const handleRegister = async () => {
     const { email, password, username } = users;
     try {
@@ -78,6 +74,7 @@ const AuthPage = () => {
     }
   };
 
+  // handle Google login via OAuth
   const handleGoogleLogin = async () => {
     account.createOAuth2Session(
       OAuthProvider.Google,
@@ -86,11 +83,10 @@ const AuthPage = () => {
     );
   };
 
+  // handle forgot password logic
   const handleForgotPassword = async () => {
-    if (!users.email) {
-      notify("Please enter your email above first.", "error");
-      return;
-    }
+    if (!users.email)
+      return notify("Please enter your email above first.", "error");
 
     try {
       await account.createRecovery(
@@ -104,13 +100,10 @@ const AuthPage = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    setUser({ ...users, [e.target.name]: e.target.value });
-  };
+  // ------------------------ JSX ------------------------
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center p-4 md:p-10 overflow-hidden relative">
-      {/* Toast Container */}
       <ToastContainer
         position="top-right"
         autoClose={2000}
@@ -130,7 +123,7 @@ const AuthPage = () => {
       />
 
       <BGanimation />
-      {/* Main Card */}
+
       <div className="relative z-10 w-full max-w-5xl bg-black/60 backdrop-blur-md border border-cyan-500/10 rounded-xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         {/* Left Side */}
         <div className="hidden md:flex flex-col items-center justify-center bg-gradient-to-br from-cyan-600/10 via-black to-purple-800/20 p-10 border-r border-cyan-500/10">
@@ -169,7 +162,7 @@ const AuthPage = () => {
                   value={users.username}
                   onChange={handleInputChange}
                   placeholder="Username"
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-cyan-500/20 text-white focus:ring-2 focus:ring-cyan-500 outline-none"
+                  className="input-style"
                   required
                 />
               </div>
@@ -183,7 +176,7 @@ const AuthPage = () => {
                 value={users.email}
                 onChange={handleInputChange}
                 placeholder="Email"
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-cyan-500/20 text-white focus:ring-2 focus:ring-cyan-500 outline-none"
+                className="input-style"
                 required
               />
             </div>
@@ -196,25 +189,22 @@ const AuthPage = () => {
                 value={users.password}
                 onChange={handleInputChange}
                 placeholder="Password"
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-black border border-cyan-500/20 text-white focus:ring-2 focus:ring-cyan-500 outline-none"
+                className="input-style"
                 required
               />
             </div>
 
             <div className="text-right">
-              <a
-                href="#"
+              <button
+                type="button"
                 onClick={handleForgotPassword}
                 className="text-cyan-300 text-sm hover:underline"
               >
                 Forget password?
-              </a>
+              </button>
             </div>
 
-            <button
-              type="submit"
-              className="w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-black rounded-lg font-semibold flex items-center justify-center gap-2 transition duration-300"
-            >
+            <button type="submit" className="btn-primary">
               {isLogin ? (
                 <LogIn className="w-5 h-5" />
               ) : (
@@ -223,12 +213,10 @@ const AuthPage = () => {
               {isLogin ? "Login" : "Register"}
             </button>
           </form>
+
           <div className="my-4 text-center text-sm text-gray-400">OR</div>
 
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full py-3 border border-cyan-400/30 text-cyan-300 hover:bg-cyan-500/10 rounded-lg flex items-center justify-center gap-2 transition duration-300"
-          >
+          <button onClick={handleGoogleLogin} className="btn-outline">
             <ShieldCheck className="w-5 h-5" /> Continue with Google
           </button>
 
