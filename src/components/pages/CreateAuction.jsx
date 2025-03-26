@@ -44,7 +44,7 @@ const CreateAuction = () => {
         {/* Header */}
         <div className="flex flex-col items-center gap-2 mb-8">
           <div className="bg-[#00b8db1a] p-4 rounded-full shadow-md">
-            <Gavel className="w-4 h-4 md:w-7 md:h-7 text-[#00b8db] drop-shadow" />
+            <Gavel className="w-6 h-6 md:w-10 md:h-10 animate-pulse  text-[#00b8db] drop-shadow" />
           </div>
           <h1 className="md:text-4xl text-2xl font-bold bg-gradient-to-r from-[#00b8db] to-cyan-400 bg-clip-text text-transparent drop-shadow-lg text-center">
             Launch Your Auction
