@@ -9,10 +9,15 @@ import {
 } from "lucide-react";
 import InstructionModal from "../InstructionModal";
 import BGanimation from "@/animations/BGanimation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { createAuction } from "@/models/auction";
 
 const CreateAuction = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     productName: "",
     description: "",
@@ -20,18 +25,54 @@ const CreateAuction = () => {
     endDate: "",
   });
 
+  const navigate = useNavigate();
+
+  const notify = (message, type = "success") => {
+    if (type === "error") toast.error(message);
+    else toast.success(message);
+  };
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setImages(files);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      await createAuction(formData, images);
+      setFormData({
+        productName: "",
+        description: "",
+        initialPrice: "",
+        endDate: "",
+      });
+      setImages([]);
+      notify("Created Auction");
+      navigate("/dashboard");
+    } catch (err) {
+      notify("Something went wrong! 😢", "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen text-white p-4 md:p-8">
+      {/* Toast */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="dark"
+      />
       <BGanimation />
+
       <div
         className="absolute inset-0"
         style={{
@@ -40,11 +81,11 @@ const CreateAuction = () => {
           backgroundSize: "50px 50px",
         }}
       ></div>
-      <div className="max-w-3xl bg-transparent backdrop-blur-md rounded-2xl shadow-xl p-6 md:p-8">
-        {/* Header */}
+
+      <div className="max-w-3xl bg-transparent backdrop-blur-md rounded-2xl shadow-xl p-6 md:p-8 relative z-10">
         <div className="flex flex-col items-center gap-2 mb-8">
           <div className="bg-[#00b8db1a] p-4 rounded-full shadow-md">
-            <Gavel className="w-6 h-6 md:w-10 md:h-10 animate-pulse  text-[#00b8db] drop-shadow" />
+            <Gavel className="w-6 h-6 md:w-10 md:h-10 animate-pulse text-[#00b8db] drop-shadow" />
           </div>
           <h1 className="md:text-4xl text-2xl font-bold bg-gradient-to-r from-[#00b8db] to-cyan-400 bg-clip-text text-transparent drop-shadow-lg text-center">
             Launch Your Auction
@@ -62,7 +103,6 @@ const CreateAuction = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Image Upload */}
           <div className="border-2 border-dashed border-[#00b8db60] rounded-lg p-6 text-center bg-[#0f1629]">
             <input
               type="file"
@@ -91,7 +131,7 @@ const CreateAuction = () => {
             )}
           </div>
 
-          {/* Product Details */}
+          {/* Fields */}
           <div className="space-y-4">
             <div>
               <label
@@ -178,18 +218,43 @@ const CreateAuction = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-[#00b8db] text-white py-3 rounded-lg hover:bg-cyan-400 transition-colors font-medium text-lg shadow-md hover:shadow-cyan-500/40"
+            disabled={loading}
+            className={`w-full py-3 rounded-lg font-semibold text-white transition-all duration-300 ${
+              loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-[#00b8db] hover:bg-cyan-500 shadow-md"
+            }`}
           >
-            Place the Product
+            {loading ? "Creating Auction..." : "Create Auction"}
           </button>
         </form>
+
+        {images.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+            {images.map((img, idx) => (
+              <div
+                key={idx}
+                className="bg-[#0f172a] p-2 rounded-xl border border-[#00b8db40] shadow-md"
+              >
+                <img
+                  src={URL.createObjectURL(img)}
+                  alt={`upload-preview-${idx}`}
+                  className="h-32 w-full object-cover rounded-md"
+                />
+                <p className="text-xs mt-2 text-center text-cyan-300 truncate">
+                  {img.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Instructions Modal */}
+      {/* Instruction Modal */}
       {isModalOpen && (
         <InstructionModal
           isOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+          onClose={() => setIsModalOpen(false)}
         />
       )}
     </div>

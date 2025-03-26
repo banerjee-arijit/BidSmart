@@ -35,7 +35,7 @@ const Dashboard = () => {
       <BGanimation />
       <div className="relative z-10 flex flex-col lg:flex-row h-screen">
         {/* Sidebar */}
-        <div className="w-full lg:w-64 bg-black overflow-y-scroll md:overflow-hidden">
+        <div className="w-full lg:w-64 bg-black overflow-scroll md:overflow-hidden">
           <Sidebar />
         </div>
 
