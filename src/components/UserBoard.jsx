@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Gavel, X } from "lucide-react";
 import { account } from "../lib/appwrite";
 import ViewProfile from "./ViewProfile";
-import Card from "./Card";
 import { Outlet } from "react-router";
 
 const UserBoard = () => {
@@ -61,7 +59,7 @@ const UserBoard = () => {
           currentUserFirstChar={currentUserFirstChar}
         />
       )}
-      <div className="mt-10">
+      <div className="mt-10 z-0 overflow-auto">
         <Outlet />
       </div>
     </div>

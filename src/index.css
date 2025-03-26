@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 
+
 /* index.css or globals.css */
 html.nova {
   @apply bg-[#0a0f1c] text-white;

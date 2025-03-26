@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { X, Edit3, Save } from "lucide-react";
-import { account } from "../lib/appwrite"; // Import Appwrite SDK
+import { account } from "../lib/appwrite";
 
 const ViewProfile = ({
   handleViewProfile,
@@ -26,7 +26,7 @@ const ViewProfile = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex sm:justify-end justify-center sm:items-center items-end transition-all z-50">
+    <div className="fixed inset-0 bg-black/50 flex sm:justify-end justify-center items-end transition-all z-[9999]">
       <div className="bg-gray-900 p-6 w-full max-w-md sm:max-w-xs sm:h-full h-[60vh] rounded-t-2xl sm:rounded-none sm:rounded-l-2xl shadow-lg relative flex flex-col gap-4">
         {/* Close Button */}
         <button

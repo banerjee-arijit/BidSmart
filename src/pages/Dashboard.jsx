@@ -23,7 +23,7 @@ import UserBoard from "@/components/UserBoard";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen  bg-black text-white relative ">
       <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
@@ -33,11 +33,16 @@ const Dashboard = () => {
         }}
       />
       <BGanimation />
-
-      <div className="relative z-10 flex flex-col lg:flex-row">
+      <div className="relative z-10 flex flex-col lg:flex-row h-screen">
         {/* Sidebar */}
-        <Sidebar />
-        <UserBoard />
+        <div className="w-full lg:w-64 bg-black overflow-hidden">
+          <Sidebar />
+        </div>
+
+        {/* UserBoard - scrollable content area */}
+        <div className="flex-1 overflow-y-scroll overflow-x-hidden h-screen">
+          <UserBoard />
+        </div>
       </div>
     </div>
   );
