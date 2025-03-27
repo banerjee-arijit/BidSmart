@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-
+*{
+  overflow-x: hidden;
+}
 
 /* index.css or globals.css */
 html.nova {
