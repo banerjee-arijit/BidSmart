@@ -9,6 +9,8 @@ import SearchAuctionPage from "../components/pages/SearchAuctionPage.jsx";
 import LiveAuction from "../components/pages/LiveAuction.jsx";
 import CreateAuction from "../components/pages/CreateAuction.jsx";
 import Messages from "../components/pages/Messages.jsx";
+import Allauction from "@/components/pages/Allauction.jsx";
+import ParticularProduct from "@/components/pages/ParticularProduct.jsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -33,6 +35,11 @@ const router = createBrowserRouter([
       { path: "live", element: <LiveAuction /> },
       { path: "create", element: <CreateAuction /> },
       { path: "messages", element: <Messages /> },
+      { path: "allauction", element: <Allauction /> },
+      {
+        path: "particularProduct/:id",
+        element: <ParticularProduct />,
+      },
     ],
   },
 

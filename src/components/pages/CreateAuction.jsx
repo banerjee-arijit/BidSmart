@@ -18,6 +18,12 @@ const CreateAuction = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userAuctionInfo, setUserAuctionInfo] = useState({
+    totalAuction: 0,
+    totalWins: 0,
+    totalIncome: 0,
+  });
+
   const [formData, setFormData] = useState({
     productName: "",
     description: "",

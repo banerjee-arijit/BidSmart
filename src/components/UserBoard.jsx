@@ -33,7 +33,7 @@ const UserBoard = () => {
   });
 
   return (
-    <div className="w-screen min-h-screen bg-black/80 border border-cyan-500/20 backdrop-blur-sm p-6 rounded-2xl shadow-lg text-white relative">
+    <div className="w-screen min-h-screen bg-black/80 backdrop-blur-sm p-6 rounded-2xl shadow-lg text-white relative">
       <div className="flex items-center gap-4">
         <div className="bg-cyan-500/10 p-3 rounded-full">
           <button

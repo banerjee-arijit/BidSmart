@@ -1,44 +1,126 @@
-const Card = () => {
+import React, { useEffect, useState } from "react";
+import { Calendar, Eye, Timer } from "lucide-react";
+import { account, storage } from "@/lib/appwrite";
+import { useNavigate } from "react-router-dom";
+
+// Mock data for demonstration
+
+const Card = ({ product }) => {
+  const [imageUrl, setImageUrl] = useState(null);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const getImage = async () => {
+      try {
+        if (product?.imageIds?.length > 0) {
+          const fileId = product.imageIds[0];
+          const url = storage.getFilePreview("67e4311200238b5e6160", fileId);
+          setImageUrl(url.href);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getImage();
+  }, [product]);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const currentUser = await account.get();
+      setUsername(currentUser.name.substring(0, currentUser.name.indexOf(" ")));
+    };
+    getUser();
+  }, [product]);
+
+  const getTimeLeft = (endDate) => {
+    const end = new Date(endDate);
+    const now = new Date();
+    const diff = end - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    return `${days}d ${hours}h left`;
+  };
+
+  const navigate = useNavigate();
+
   return (
-    <div className="group w-[240px] rounded-2xl bg-[#1b233d] p-1 overflow-hidden shadow-[0_8px_20px_rgba(0,184,219,0.2)] transition-transform duration-500 hover:scale-105 hover:shadow-[0_8px_30px_rgba(0,184,219,0.5)]">
-      {/* Image Section */}
-      <div className="relative h-[150px] rounded-[15px] overflow-hidden">
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 backdrop-blur-sm bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button className="bg-[#00b8db] text-white text-sm px-4 py-2 rounded-lg hover:bg-cyan-500 hover:shadow-lg transition font-semibold tracking-wide">
-            Bid Now
-          </button>
+    <div className="w-[300px] rounded-2xl bg-white/5 backdrop-blur-lg cursor-pointer p-4 hover:shadow-[0_0_40px_rgba(67,255,255,0.15)] transition-all duration-300">
+      <div className="relative h-[200px] rounded-xl overflow-hidden mb-4">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={product?.productName}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-black/20 flex items-center justify-center text-white text-sm">
+            Loading...
+          </div>
+        )}
+
+        {/* Overlay with Time Left */}
+        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <Timer className="w-4 h-4 text-cyan-400" />
+          <span className="text-xs font-medium text-white">
+            {getTimeLeft(product?.endDate)}
+          </span>
         </div>
 
-        {/* Decorative Corners */}
-        <div className="absolute top-0 left-0 w-[130px] h-[30px] bg-[#1b233d] rounded-br-[10px] skew-x-[-12deg] shadow-[-10px_-10px_0_0_#1b233d]" />
-        <div className="absolute top-[30px] left-0 w-[15px] h-[15px] rounded-tl-[15px] shadow-[-5px_-5px_0_2px_#1b233d]" />
-        <div className="absolute right-[-15px] top-0 w-[15px] h-[15px] rounded-tl-[10px] shadow-[-5px_-5px_0_2px_#1b233d]" />
-
-        {/* NOVA Label */}
-        <div className="absolute top-0 left-4 h-[30px] flex items-center">
-          <span className="text-white font-bold text-lg tracking-wider">
-            NOVA
-          </span>
+        {/* User Info */}
+        <div className="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-md px-3 py-2 rounded-lg flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+            {username.charAt(0)}
+          </div>
+          <div className="flex-1">
+            <p className="text-white text-sm font-medium">{username}</p>
+            <p className="text-gray-300 text-xs">Creator</p>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Info */}
-      <div className="mt-4 px-3 py-3">
-        <h3 className="text-white font-semibold text-center text-[18px] tracking-wide">
-          Camera
-        </h3>
-
-        <div className="flex justify-between mt-5 text-cyan-100/80 text-xs">
-          <div className="flex-1 text-center">
-            <span className="block text-[13px] font-bold">1.4k</span>
-            <span className="block text-[10px] opacity-60">Views</span>
+      {/* Content */}
+      <div className="space-y-4">
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-1">
+            {product?.productName}
+          </h3>
+          <p className="text-gray-400 text-sm line-clamp-2">
+            {product?.description}
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-4 py-3 border-y border-white/10">
+          <div className="text-center">
+            <p className="text-cyan-400 font-semibold">
+              ₹{product?.initialPrice}
+            </p>
+            <p className="text-xs text-gray-400">Current Bid</p>
           </div>
-          <div className="flex-1 text-center border-l border-white/10">
-            <span className="block text-[13px] font-bold">$220</span>
-            <span className="block text-[10px] opacity-60">Current Bid</span>
+
+          <div className="text-center border-x border-white/10">
+            <div className="flex items-center justify-center gap-1">
+              <Eye className="w-4 h-4 text-gray-400" />
+              <p className="text-white font-semibold">{product?.views}</p>
+            </div>
+            <p className="text-xs text-gray-400">Views</p>
+          </div>
+
+          <div className="text-center">
+            <p className="text-green-400 font-semibold">
+              ₹{product?.maxBid || 0}
+            </p>
+            <p className="text-xs text-gray-400">Max Bid</p>
           </div>
         </div>
+
+        {/* Action Button */}
+        <button
+          className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2.5 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all duration-300"
+          onClick={() => navigate(`particularProduct/${product.$id}`)}
+        >
+          Place Bid
+        </button>
       </div>
     </div>
   );

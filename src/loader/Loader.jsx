@@ -3,7 +3,7 @@ import { Gavel } from "lucide-react";
 
 export default function Loader() {
   return (
-    <div className="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-zinc-900 to-black text-white overflow-hidden relative">
+    <div className="w-full h-screen flex flex-col items-center justify-center bg-black text-white overflow-hidden relative">
       <motion.div
         className="absolute w-72 h-72 bg-[#00b8db] blur-3xl opacity-20 rounded-full"
         animate={{
