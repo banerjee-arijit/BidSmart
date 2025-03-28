@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Calendar, Eye, Timer } from "lucide-react";
 import { account, storage } from "@/lib/appwrite";
 import { useNavigate } from "react-router-dom";
+import { dataBase, ID } from "@/lib/appwrite";
+import { Query } from "appwrite";
 
 // Mock data for demonstration
 
 const Card = ({ product }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [username, setUsername] = useState("");
+  const [maxBid, setMaxBid] = useState(0);
 
   useEffect(() => {
     const getImage = async () => {
@@ -42,6 +45,26 @@ const Card = ({ product }) => {
 
     return `${days}d ${hours}h left`;
   };
+
+  useEffect(() => {
+    const currentMaxBid = async () => {
+      try {
+        const response = await dataBase.listDocuments(
+          "67e42ee3003893df6ebc", // Database ID
+          "67e5580d000494cb0aa2", // Collection ID
+          [
+            Query.orderDesc("amount"), // Optional: sort by highest bid
+            Query.limit(1), // Optional: get only top bid
+          ]
+        );
+        setMaxBid(response.documents[0].amount);
+      } catch (error) {
+        console.error("Failed to fetch top bid:", error);
+      }
+    };
+
+    currentMaxBid();
+  }, []);
 
   const navigate = useNavigate();
 

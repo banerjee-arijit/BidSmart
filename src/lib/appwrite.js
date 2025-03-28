@@ -5,6 +5,7 @@ import {
   OAuthProvider,
   Databases,
   Storage,
+  Query,
 } from "appwrite";
 
 const client = new Client();

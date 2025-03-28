@@ -4,11 +4,14 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { storage, account } from "@/lib/appwrite";
 import { Timer, TrendingUp, History, Eye } from "lucide-react";
+import { saveHigestBidder } from "@/helper/saveHighestBidder";
+import { fetchGetHighestBid } from "@/helper/getHighestBidder";
 
 const ParticularProduct = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [username, setUsername] = useState("");
   const [bidAmount, setBidAmount] = useState("");
+  const [higgestBidder, setHiggestBidder] = useState([]);
 
   const { id } = useParams();
   const { products, fetchProducts, loading } = useProductStore();
@@ -16,10 +19,20 @@ const ParticularProduct = () => {
   const product = products.find((p) => p.$id === id);
 
   useEffect(() => {
+    const getHigestBid = async () => {
+      if (!product) return;
+      const result = await fetchGetHighestBid(product.$id);
+      setHiggestBidder(result);
+    };
+
+    getHigestBid();
+  }, [product]);
+
+  useEffect(() => {
     fetchProducts();
   }, []);
 
-  const handlePlaceBid = () => {
+  const handlePlaceBid = async () => {
     const bid = parseFloat(bidAmount);
 
     if (isNaN(bid)) {
@@ -32,15 +45,15 @@ const ParticularProduct = () => {
       return;
     }
 
-    // Check if user already bid
-    const updatedBids = [...(product.bids || [])];
+    const currentUser = await account.get();
+
+    let updatedBids = [...(product.bids || [])];
+
     const existingBidIndex = updatedBids.findIndex((b) => b.user === username);
 
     if (existingBidIndex !== -1) {
-      // Update existing user's bid
       updatedBids[existingBidIndex].amount = bid;
     } else {
-      // Add new bid
       updatedBids.push({ user: username, amount: bid });
     }
 
@@ -53,10 +66,22 @@ const ParticularProduct = () => {
     const updatedProducts = products.map((p) =>
       p.$id === product.$id ? updatedProduct : p
     );
-
     useProductStore.setState({ products: updatedProducts });
 
-    setBidAmount(""); // Clear input
+    // 🔥 Save bid in DB
+    await saveHigestBidder({
+      productId: product.$id,
+      userId: currentUser.$id,
+      username: currentUser.name,
+      amount: bid,
+    });
+
+    // 🔄 Refresh leaderboard
+    const updatedResult = await fetchGetHighestBid(product.$id);
+    setHiggestBidder(updatedResult);
+
+    // Clear input
+    setBidAmount("");
   };
 
   useEffect(() => {
@@ -114,8 +139,8 @@ const ParticularProduct = () => {
           Top Bidders
         </h3>
         <div className="space-y-3">
-          {product.bids?.length > 0 ? (
-            product.bids
+          {higgestBidder?.length > 0 ? (
+            higgestBidder
               .sort((a, b) => b.amount - a.amount)
               .map((bid, index) => (
                 <div
@@ -123,7 +148,7 @@ const ParticularProduct = () => {
                   className="flex justify-between items-center bg-white/10 px-4 py-2 rounded-lg"
                 >
                   <span className="font-medium">
-                    {index + 1}. {bid.user}
+                    {index + 1}. {bid.username}
                   </span>
                   <span className="text-cyan-300 font-semibold">
                     ₹{bid.amount}
